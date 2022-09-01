@@ -1,4 +1,4 @@
-from grafo import Graph
+from grafo import Graph, dfs, le_arquivo_grafo_direcionado
 
 
 if __name__ == "__main__":
@@ -55,18 +55,24 @@ if __name__ == "__main__":
 
     # print(Graph.compara_grafos(g, h))
     
+#########################
+
+    # g = le_arquivo_grafo_direcionado("in.txt")
+    # g.mostra()
+
+
 ###################
     g = Graph(v=6, e = None, direcionado = True,usaMatriz = False)
-    g.insere(1,2)
-    g.insere(1,5)
-    g.insere(3,1)
+    g.insere(0,1)
+    g.insere(0,4)
+    g.insere(2,0)
+    g.insere(2,3)
+    g.insere(2,4)
     g.insere(3,4)
     g.insere(3,5)
+    g.insere(4,1)
     g.insere(4,5)
-    g.insere(4,6)
-    g.insere(5,2)
-    g.insere(5,6)
-    g.insere(6,1)
+    g.insere(5,0)
     g.mostra()
-    #Graph.dfs_visita(g, 1)
-    print(g.inverte_lista_adjacencia(2))
+    dfs(g)
+    # print(g.inverte_lista_adjacencia(2))

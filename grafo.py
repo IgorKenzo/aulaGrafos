@@ -1,5 +1,4 @@
 from functools import reduce
-import copy
 
 class Graph():
     def __init__(self, v = None, e = None, direcionado = False, usaMatriz = False):
@@ -8,9 +7,6 @@ class Graph():
         self.direcionado = direcionado
         self.usaMatriz = usaMatriz
         self.cria_lista_adjacencia()
-
-    def __init__(self, filename):
-        pass
 
     def cria_lista_adjacencia(self):
         if not self.usaMatriz:
@@ -27,23 +23,23 @@ class Graph():
     def insere(self, u, w):
 
         if not self.usaMatriz:
-            self.e[u-1].append(w)
+            self.e[u].append(w)
             if not self.direcionado:
-                self.e[w-1].append(u)
+                self.e[w].append(u)
         else:
-            self.e[u-1][w-1] = 1
+            self.e[u][w] = 1
             if not self.direcionado:
-                self.e[w-1][u-1] = 1
+                self.e[w][u] = 1
 
     def remov(self, u, w):
         if not self.usaMatriz:
-            self.e[u-1][w-1] = 0
+            self.e[u][w] = 0
             if not self.direcionado:
-                self.e[w-1][u-1] = 0
+                self.e[w][u] = 0
         else:
-            self.e[u-1].remove(w)
+            self.e[u].remove(w)
             if not self.direcionado:
-                self.e[w-1].remove(u)
+                self.e[w].remove(u)
 
     def mostra(self):
         print(f"V =  {self.v}")
@@ -60,19 +56,19 @@ class Graph():
         gr = 0
         if self.usaMatriz:
             for i in range(self.v):
-                gr += self.e[i][v-1]
+                gr += self.e[i][v]
         else:
             for i in range(self.v):
-                gr += 1 if (v-1 in self.e[i]) else 0
+                gr += 1 if (v in self.e[i]) else 0
 
         return gr
             
     
     def grau_saida(self, v):
         if self.usaMatriz:
-            return reduce(lambda a, b: a + b, self.e[v-1])
+            return reduce(lambda a, b: a + b, self.e[v])
         else:
-            return len(self.e[v-1])
+            return len(self.e[v])
 
     def compara_grafos(g, h):
         if g.v != h.v: return False
@@ -116,19 +112,35 @@ class Graph():
         if self.usaMatriz: print("Não usa lista de adjacencia"); return
 
         return list(reversed(self.e[u]))
-        
 
-    def dfs_visita(g, v, visitados = None):
-        if visitados == None:
-            visitados = [False for _ in range(g.v)]
+def le_arquivo_grafo_direcionado(filename):
+    f = open(filename, "r")
+    v = int(f.readline())
+    n_e = int(f.readline())
+    e = []
+    for _ in range(n_e):
+        u_v = f.readline()
+        u_v = u_v.split()
+        e.append((int(u_v[0]), int(u_v[1])))
 
-        #falta aqui
-        visitados[v-1] = True
-        for w in g.e[v-1]:
-            if not visitados[w-1]:
-                visitados[w-1] = True
-                print(w)
-                Graph.dfs_visita(g, w, visitados)
+    f.close()
+
+    return Graph(v=v, e = e, direcionado = True, usaMatriz = False)
+
+
+def dfs(g):
+    visitados = [False for _ in range(g.v)]
+    for u in range(len(g.e)):
+        if not visitados[u]:
+            dfs_visita(g, u, visitados)
+
+def dfs_visita(g, u, visitados):
+    visitados[u] = True
+    print(u)
+    for w in g.e[u]:
+        if not visitados[w]:
+            dfs_visita(g, w, visitados)
+
     
 
 def _compara_matriz(g, h):
@@ -169,3 +181,6 @@ def matriz_para_lista(g):
     g.e = lista.copy()
     g.usaMatriz = False
     return g
+
+  
+    
