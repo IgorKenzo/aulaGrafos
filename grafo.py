@@ -9,6 +9,9 @@ class Graph():
         self.usaMatriz = usaMatriz
         self.cria_lista_adjacencia()
 
+    def __init__(self, filename):
+        pass
+
     def cria_lista_adjacencia(self):
         if not self.usaMatriz:
             self.e = [[] for _ in range(self.v)]
@@ -108,6 +111,12 @@ class Graph():
 
                 j = lista_para_matriz(j)
                 return _compara_matriz(j, h)
+
+    def inverte_lista_adjacencia(self, u):
+        if self.usaMatriz: print("Não usa lista de adjacencia"); return
+
+        return list(reversed(self.e[u]))
+        
 
     def dfs_visita(g, v, visitados = None):
         if visitados == None:

@@ -56,7 +56,7 @@ if __name__ == "__main__":
     # print(Graph.compara_grafos(g, h))
     
 ###################
-    g = Graph(6,None,True,False)
+    g = Graph(v=6, e = None, direcionado = True,usaMatriz = False)
     g.insere(1,2)
     g.insere(1,5)
     g.insere(3,1)
@@ -68,4 +68,5 @@ if __name__ == "__main__":
     g.insere(5,6)
     g.insere(6,1)
     g.mostra()
-    Graph.dfs_visita(g, 1)
+    #Graph.dfs_visita(g, 1)
+    print(g.inverte_lista_adjacencia(2))
