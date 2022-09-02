@@ -1,4 +1,4 @@
-from grafo import Graph, dfs, le_arquivo_grafo_direcionado
+from grafo import Graph, dfs, le_arquivo_grafo_direcionado, tem_ciclo
 
 
 if __name__ == "__main__":
@@ -62,17 +62,45 @@ if __name__ == "__main__":
 
 
 ###################
-    g = Graph(v=6, e = None, direcionado = True,usaMatriz = False)
-    g.insere(0,1)
-    g.insere(0,4)
-    g.insere(2,0)
-    g.insere(2,3)
-    g.insere(2,4)
-    g.insere(3,4)
-    g.insere(3,5)
-    g.insere(4,1)
-    g.insere(4,5)
-    g.insere(5,0)
-    g.mostra()
-    dfs(g)
+    # g = Graph(v=6, e = None, direcionado = True,usaMatriz = False)
+    # g.insere(0,1)
+    # g.insere(0,4)
+    # g.insere(2,0)
+    # g.insere(2,3)
+    # g.insere(2,4)
+    # g.insere(3,4)
+    # g.insere(3,5)
+    # g.insere(4,1)
+    # g.insere(4,5)
+    # g.insere(5,0)
+    # g.mostra()
+    # dfs(g)
     # print(g.inverte_lista_adjacencia(2))
+
+###########
+    """ Não tem ciclo"""
+    # g = Graph(v=6, e = None, direcionado = True,usaMatriz = True)
+    # g.insere(0,1)
+    # g.insere(0,4)
+    # g.insere(2,0)
+    # g.insere(2,3)
+    # g.insere(2,4)
+    # g.insere(3,4)
+    # g.insere(3,5)
+    # g.insere(4,1)
+    # g.insere(4,5)
+    # g.insere(5,1)
+    # g.mostra()
+
+    # print(tem_ciclo(g))
+
+###########
+    """ TEm ciclo """
+    g = Graph(v=3, e = None, direcionado = True,usaMatriz = False)
+    g.insere(0,1)
+    g.insere(1,2)
+    g.insere(2,0)
+
+    g.mostra()
+
+    print(tem_ciclo(g))

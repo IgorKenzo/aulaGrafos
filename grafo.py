@@ -182,5 +182,22 @@ def matriz_para_lista(g):
     g.usaMatriz = False
     return g
 
-  
+def tem_ciclo(g):
+    for i in range(g.v):
+        if ciclo(g, i, i): return True
+    
+    return False
+
+def ciclo(g, s, e):
+    if g.usaMatriz:
+        for j in range(g.v):
+            if g.e[s][j] == 1:
+                if j == e: return True
+                if ciclo(g, j, e): return True
+    else:
+        for j in g.e[s]:
+            if j == e: return True
+            if ciclo(g, j, e): return True
+    return False
+
     
