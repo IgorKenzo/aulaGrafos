@@ -1,4 +1,4 @@
-from grafo import Graph, dfs, eh_fonte, eh_simetrico, eh_sorvedouro, le_arquivo_grafo_direcionado, tem_ciclo
+from grafo import Graph, caminho, dfs, dfs_iterativo, eh_fonte, eh_simetrico, eh_sorvedouro, le_arquivo_grafo_direcionado, mostra_caminho, tem_caminho, tem_caminho_simples, tem_ciclo
 
 
 if __name__ == "__main__":
@@ -115,8 +115,25 @@ if __name__ == "__main__":
     # print(eh_sorvedouro(g,1))
 #######
     """ Simetrico"""
-    g = Graph(v=4, e = [(1, 2), (2, 1), (1, 3), (3, 1), (2, 3), (3, 2)], direcionado = True,usaMatriz = False)
+    # g = Graph(v=4, e = [(1, 2), (2, 1), (1, 3), (3, 1), (2, 3), (3, 2)], direcionado = True,usaMatriz = False)
     
-    g.mostra()
+    # g.mostra()
 
-    print(eh_simetrico(g))
+    # print(eh_simetrico(g))
+########
+    """ caminho """
+    # g = Graph(v=3, e = None, direcionado = True, usaMatriz = False)
+    # g.insere(0,1)
+    # g.insere(1,0)
+    # g.insere(1,2)
+    # print(tem_caminho_simples(g, [0,1,0,1,2]))
+
+#######
+    """outro caminho"""
+    g = Graph(v=3, e = None, direcionado = True, usaMatriz = True)
+    g.insere(0,1)
+    # g.insere(0,2)
+    g.insere(1,2)
+    # print(caminho(g, 0, 2))
+    # mostra_caminho(g, 0, 2)
+    dfs_iterativo(g)

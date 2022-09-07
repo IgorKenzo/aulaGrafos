@@ -1,4 +1,6 @@
 from functools import reduce
+from tkinter.messagebox import NO
+from traceback import print_tb
 # 1
 class Graph():
     """Construa uma classe Digrafo para representar o grafo orientado utilizando a matriz de adjacência."""
@@ -254,26 +256,9 @@ def eh_simetrico(g: Graph):
     else:
         for i in range(g.v):
             for j in g.e[i]:
-                if not ( i in g.e[j] and j in g.e[i]): return 0
+                if not (i in g.e[j] and j in g.e[i]): return 0
         return 1
-            
-
 ### fim 10
-
-def dfs(g):
-    visitados = [False for _ in range(g.v)]
-    for u in range(len(g.e)):
-        if not visitados[u]:
-            dfs_visita(g, u, visitados)
-
-def dfs_visita(g, u, visitados):
-    visitados[u] = True
-    print(u)
-    for w in g.e[u]:
-        if not visitados[w]:
-            dfs_visita(g, w, visitados)
-
-    
 
 def _compara_matriz(g, h):
     for i in range(g.v):
@@ -291,6 +276,136 @@ def _compara_lista(g ,h):
                 return False
     return True
 
+########### Aula 02 ###########
+### 1
+def tem_caminho(g: Graph, cam: list[int]):
+    """Escreva uma função que verifique se uma dada sequência
+    seq[0..k] de vértices de um grafo é um caminho. A função
+    devolve 1 caso a sequencia seja um caminho e 0 caso contrário.
+    Faça duas versões do método:supõe que o grafo dado por sua
+    matriz de adjacência e outra supõe que o grafo é dado por listas
+    de adjacência."""
+    if g.usaMatriz:
+        for i in range(0, len(cam)-1):
+            if not g.e[cam[i]][cam[i+1]]: return 0
+        return 1
+    else:
+        for i in range(0, len(cam)-1):
+            if not cam[i+1] in g.e[cam[i]]: return 0
+        return 1
+### fim 1
+
+### 2
+def tem_caminho_simples(g:Graph, cam: list[int]):
+    """Escreva uma função que verifique se uma dada sequência
+    seq[0..k] de vértices de um grafo é um caminho simples. A
+    função devolve 1 caso a sequencia seja um caminho e 0 caso
+    contrário. Faça duas versões do método:supõe que o grafo dado
+    por sua matriz de adjacência e outra supõe que o grafo é dado
+    por listas de adjacência.
+    """
+    res = tem_caminho(g, cam) and (len(set(cam)) == len(cam))
+    return 1 if res else 0
+### fim 2
+
+
+### 3
+def caminho(g: Graph, s: int, t: int):
+    """Dados vértices s e t de um grafo G, escreva uma função que
+    retorna 1 se existe um caminho ou 0 se não existe um caminho
+    de s a t em G. Faça duas versões: uma supõe que o grafo é
+    dado por sua matriz de adjacência e outra supõe que o grafo
+    é dado por listas de adjacência.
+    """
+    if s == t: return 1
+
+    if g.usaMatriz:
+        for j in range(g.v):
+            if g.e[s][j] == 1:
+                if s == j: continue
+                else: 
+                    if caminho(g, j, t): return 1
+    else:
+        for j in g.e[s]:
+            if caminho(g, j, t): return 1
+    # return False
+### fim 3
+
+
+### 4
+def mostra_caminho(g: Graph, s: int, t: int) -> None:
+    """Dados vértices s e t de um grafo G, escreva uma função que
+    encontra e exibe (caso exista) um caminho de s a t. Faça duas
+    versões da função: uma supõe que o grafo é dado por sua matriz
+    de adjacência e outra supõe que o grafo é dado por listas de
+    adjacência.
+    """
+    if s == t: print(s); return 1
+
+    if g.usaMatriz:
+        print(s)
+        for j in range(g.v):
+            if g.e[s][j] == 1:
+                if s == j: continue
+                else: 
+                    if mostra_caminho(g, j, t): return 1
+    else:
+        print(s)
+        for j in g.e[s]:
+            if mostra_caminho(g, j, t): return 1
+    # return False
+### fim 4
+
+### 5
+def dfs_iterativo(g: Graph):
+    visitado = [0 for _ in range(g.v)]
+    stack = []
+
+    if g.usaMatriz:
+        for u in range(g.v):
+            if not visitado[u]:
+                print(u)
+                stack.append(u)
+                visitado[u] = 1
+                while len(stack) > 0:
+                    v = stack.pop()
+                    for z, w in enumerate(g.e[v]):
+                        if w == 1:
+                            if not visitado[z]:
+                                print(z)
+                                visitado[z] = 1
+                                stack.append(z)
+    else:
+        for u in range(g.v):
+            if not visitado[u]:
+                print(u)
+                stack.append(u)
+                visitado[u] = 1
+                while len(stack) > 0:
+                    v = stack.pop()
+                    for w in g.e[v]:
+                        if not visitado[w]:
+                            print(w)
+                            visitado[w] = 1
+                            stack.append(w)
+
+### fim 5
+
+def dfs(g):
+    visitados = [False for _ in range(g.v)]
+    for u in range(len(g.e)):
+        if not visitados[u]:
+            dfs_visita(g, u, visitados)
+
+def dfs_visita(g, u, visitados):
+    visitados[u] = True
+    print(u)
+    for w in g.e[u]:
+        if not visitados[w]:
+            dfs_visita(g, w, visitados)
+
+
+###########################################################
 def tem_ciclo(g):
     for i in range(g.v):
         if ciclo(g, i, i): return True
