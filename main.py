@@ -1,4 +1,4 @@
-from grafo import Graph, dfs, le_arquivo_grafo_direcionado, tem_ciclo
+from grafo import Graph, dfs, eh_fonte, eh_simetrico, eh_sorvedouro, le_arquivo_grafo_direcionado, tem_ciclo
 
 
 if __name__ == "__main__":
@@ -96,11 +96,27 @@ if __name__ == "__main__":
 
 ###########
     """ TEm ciclo """
-    g = Graph(v=3, e = None, direcionado = True,usaMatriz = False)
-    g.insere(0,1)
-    g.insere(1,2)
-    g.insere(2,0)
+    # g = Graph(v=3, e = None, direcionado = True,usaMatriz = False)
+    # g.insere(0,1)
+    # g.insere(1,2)
+    # g.insere(2,0)
 
+    # g.mostra()
+
+    # print(tem_ciclo(g))
+######
+    """Eh fonte"""
+    # g = Graph(v=3, e = None, direcionado = True, usaMatriz = False)
+    # g.insere(0,1)
+    # g.insere(0,2)
+
+    # # g.mostra()
+
+    # print(eh_sorvedouro(g,1))
+#######
+    """ Simetrico"""
+    g = Graph(v=4, e = [(1, 2), (2, 1), (1, 3), (3, 1), (2, 3), (3, 2)], direcionado = True,usaMatriz = False)
+    
     g.mostra()
 
-    print(tem_ciclo(g))
+    print(eh_simetrico(g))
