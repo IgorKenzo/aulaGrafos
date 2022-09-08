@@ -1,6 +1,4 @@
 from functools import reduce
-from tkinter.messagebox import NO
-from traceback import print_tb
 # 1
 class Graph():
     """Construa uma classe Digrafo para representar o grafo orientado utilizando a matriz de adjacência."""
@@ -424,4 +422,31 @@ def ciclo(g, s, e):
             if ciclo(g, j, e): return True
     return False
 
-    
+############ Aula 4 $$#########
+
+def remove_no(g, v):
+    if g.usaMatriz:
+        for i in range(g.v):
+            g.e[i][v] = 0
+            g.e[v][i] = 0
+    else:
+        g.e[v] = []
+        for i in range(g.v):
+            if i in g.e[i]:
+                g.e[i].remove(v)
+            
+
+def ordenacao_topologica(g: Graph):
+    h = Graph(g.v,None, g.direcionado, g.usaMatriz)
+    h.e = g.e.copy()
+
+    ordem = []
+    usado = [0 for _ in range(h.v)]
+
+    while reduce(lambda a, b: a+b, usado, 0) != h.v:
+        for i in range(h.v):
+            if h.grau_entrada(i) == 0 and not usado[i]:
+                ordem.append(i)
+                usado[i] = 1
+                remove_no(h ,i)
+    return ordem
