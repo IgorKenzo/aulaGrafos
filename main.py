@@ -1,4 +1,4 @@
-from grafo import Graph, caminho, dfs, dfs_iterativo, eh_fonte, eh_simetrico, eh_sorvedouro, le_arquivo_grafo_direcionado, mostra_caminho, tem_caminho, tem_caminho_simples, tem_ciclo, ordenacao_topologica
+from grafo import *
 
 
 if __name__ == "__main__":
@@ -141,22 +141,48 @@ if __name__ == "__main__":
 
 #######
     """Topologica"""
-    g = Graph(v=6, e = None, direcionado = True,usaMatriz = True)
-    g.insere(0,2)
-    g.insere(0,4)
-    g.insere(0,3)
+    # g = Graph(v=6, e = None, direcionado = True,usaMatriz = True)
+    # g.insere(0,2)
+    # g.insere(0,4)
+    # g.insere(0,3)
 
-    g.insere(2,1)
+    # g.insere(2,1)
 
-    g.insere(3,4)
-    g.insere(3,5)
+    # g.insere(3,4)
+    # g.insere(3,5)
 
-    g.insere(4,1)
-    g.insere(4,2)
-    g.insere(4,5)
+    # g.insere(4,1)
+    # g.insere(4,2)
+    # g.insere(4,5)
     
-    g.insere(5,1)
-    g.mostra()
+    # g.insere(5,1)
+    # g.mostra()
 
-    print(tem_ciclo(g))
-    print(ordenacao_topologica(g))
+    # print(tem_ciclo(g))
+    # print(ordenacao_topologica(g))
+
+#####
+
+    """ Grafo induzido"""
+    g = Graph(v = 7, e= None, direcionado= False, usaMatriz= False)
+    g.insere(0, 1)
+    g.insere(1, 2)
+    g.insere(2, 3)
+    g.insere(3, 4)
+    g.insere(4, 5)
+    g.insere(5, 0)
+
+    g.insere(6, 0)
+    g.insere(6, 1)
+    g.insere(6, 2)
+    g.insere(6, 3)
+    g.insere(6, 4)
+    g.insere(6, 5)
+
+    # g.mostra()
+
+    h = grafo_induzido(g, [0,1,2,3,4,5])
+    h.mostra()
+
+    i = grafo_aresta_induzido(g, [(6, 0),(6, 1),(6, 2),(6, 3),(6, 4),(6, 5)])
+    i.mostra()

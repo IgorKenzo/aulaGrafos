@@ -450,3 +450,24 @@ def ordenacao_topologica(g: Graph):
                 usado[i] = 1
                 remove_no(h ,i)
     return ordem
+
+def grafo_induzido(g: Graph, v = []):
+    qtd_v = g.v - len(v)
+
+    vertices_restantes = list(set([i for i in range(g.v)])- set(v))
+    vertices_restantes.sort()
+
+    h = Graph(qtd_v, e= None, direcionado= False, usaMatriz=False)
+
+    for i, vr in enumerate(vertices_restantes):
+        h.e[i] = g.e[vr].copy()
+
+        for vretirado in v:
+            if vretirado in h.e[i]:
+                h.e[i].remove(vretirado)
+
+
+    return h
+
+def grafo_aresta_induzido(g: Graph, e = []):
+    pass
