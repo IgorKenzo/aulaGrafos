@@ -161,28 +161,58 @@ if __name__ == "__main__":
     # print(tem_ciclo(g))
     # print(ordenacao_topologica(g))
 
+
+
+#######
+########
+    """tempo só lista adj""" 
+    # g = Graph(v=6, e = None, direcionado = True,usaMatriz = False)
+    # g.insere(0,2)
+    # g.insere(0,4)
+    # g.insere(0,3)
+
+    # g.insere(2,1)
+
+    # g.insere(3,4)
+    # g.insere(3,5)
+
+    # g.insere(4,1)
+    # g.insere(4,2)
+    # g.insere(4,5)
+    
+    # g.insere(5,1)
+    # # g.mostra()
+
+    # dfs_tempo(g)
+
 #####
 
-    """ Grafo induzido"""
-    g = Graph(v = 7, e= None, direcionado= False, usaMatriz= False)
-    g.insere(0, 1)
-    g.insere(1, 2)
-    g.insere(2, 3)
-    g.insere(3, 4)
-    g.insere(4, 5)
-    g.insere(5, 0)
+    # """ Grafo induzido"""
+    # g = Graph(v = 7, e= None, direcionado= False, usaMatriz= False)
+    # g.insere(0, 1)
+    # g.insere(1, 2)
+    # g.insere(2, 3)
+    # g.insere(3, 4)
+    # g.insere(4, 5)
+    # g.insere(5, 0)
 
-    g.insere(6, 0)
-    g.insere(6, 1)
-    g.insere(6, 2)
-    g.insere(6, 3)
-    g.insere(6, 4)
-    g.insere(6, 5)
+    # g.insere(6, 0)
+    # g.insere(6, 1)
+    # g.insere(6, 2)
+    # g.insere(6, 3)
+    # g.insere(6, 4)
+    # g.insere(6, 5)
 
-    # g.mostra()
+    # # g.mostra()
 
-    h = grafo_induzido(g, [0,1,2,3,4,5])
-    h.mostra()
+    # # h = grafo_induzido(g, [0,1,2,3,4,5])
+    # # h.mostra()
 
-    i = grafo_aresta_induzido(g, [(6, 0),(6, 1),(6, 2),(6, 3),(6, 4),(6, 5)])
-    i.mostra()
+    # # GRAFO ARESTA INDUZIDO
+
+    # i = grafo_aresta_induzido(g, [(6, 0),(6, 1),(6, 2),(6, 3),(6, 4),(6, 5)])
+    # i.mostra()
+######
+
+
+ 

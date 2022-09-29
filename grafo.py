@@ -434,7 +434,45 @@ def remove_no(g, v):
         for i in range(g.v):
             if i in g.e[i]:
                 g.e[i].remove(v)
-            
+
+
+def dfs_visita_tempo(g, u, visitados, tempo, d, f, pai):
+    visitados[u] = True
+
+    tempo += 1
+    d[u] = tempo
+
+    for w in g.e[u]:
+        if not visitados[w]:
+            pai[w] = u
+            tempo = dfs_visita_tempo(g, w, visitados, tempo, d, f, pai)    
+
+    tempo += 1
+    f[u] = tempo
+    return tempo
+
+def dfs_tempo(g: Graph):
+    # for u in range(g.v):
+    #     visitado[u] = 0
+    #     d[u] = -1
+    #     f[u] = -1
+    #     pai[u] = -1
+
+    visitado = [False for _ in range(g.v)]
+    d = [-1 for _ in range(g.v)]
+    f = [-1 for _ in range(g.v)]
+    pai = [-1 for _ in range(g.v)]
+
+    tempo = 0
+
+    for u in range(g.v):
+        if not visitado[u]:
+            pai[u] = u
+            dfs_visita_tempo(g, u, visitado, tempo, d, f, pai)
+
+    return d, f, pai
+    
+
 
 def ordenacao_topologica(g: Graph):
     h = Graph(g.v,None, g.direcionado, g.usaMatriz)
@@ -452,6 +490,8 @@ def ordenacao_topologica(g: Graph):
     return ordem
 
 def grafo_induzido(g: Graph, v = []):
+    if g.direcionado: exit("PRECISA SER NAO DIRECIONADO")
+
     qtd_v = g.v - len(v)
 
     vertices_restantes = list(set([i for i in range(g.v)])- set(v))
@@ -470,4 +510,24 @@ def grafo_induzido(g: Graph, v = []):
     return h
 
 def grafo_aresta_induzido(g: Graph, e = []):
+    if g.direcionado: exit("PRECISA SER NAO DIRECIONADO")
+
+    h = Graph(g.v, e= None, direcionado= False, usaMatriz=g.usaMatriz)
+    h.e = g.e.copy()
+
+    if g.usaMatriz:
+        for u,v in e:
+            h.e[u][v] = 0
+            h.e[v][u] = 0
+    else:
+        for u,v in e:
+            if v in h.e[u]: h.e[u].remove(v)
+            if u in h.e[v]: h.e[v].remove(u)
+
+    return h
+
+def eh_subgrafo(g: Graph, h: Graph):
+    """Checa se h é sub grafo de g"""
+    # for i in range(h.v):
+
     pass
