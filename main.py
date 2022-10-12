@@ -213,6 +213,37 @@ if __name__ == "__main__":
     # i = grafo_aresta_induzido(g, [(6, 0),(6, 1),(6, 2),(6, 3),(6, 4),(6, 5)])
     # i.mostra()
 ######
-
-
  
+    """ Grafo subgrafo"""
+    # g = Graph(v = 6, e= None, direcionado= False, usaMatriz= False)
+    # h = Graph(v = 6, e= None, direcionado= False, usaMatriz= False)
+
+    
+    # g.insere(1, 2)
+    # g.insere(1, 4)
+    # g.insere(2, 4)
+    # g.insere(4, 3)
+    # g.insere(3, 5)
+
+    # g.mostra()
+
+    # h.insere(1, 4)
+    # h.insere(2, 4)
+    # h.insere(4, 3)
+
+    # h.mostra()
+
+
+    # print(eh_subgrafo(g, h))
+
+######
+    """Numero de componenetes"""
+    g = Graph(v = 6, e= None, direcionado= False, usaMatriz= False)
+
+    g.insere(1, 2)
+    g.insere(1, 4)
+    g.insere(2, 4)
+    g.insere(4, 3)
+    g.insere(3, 5)
+
+    print(componentes(g))

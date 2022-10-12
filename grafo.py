@@ -2,7 +2,7 @@ from functools import reduce
 # 1
 class Graph():
     """Construa uma classe Digrafo para representar o grafo orientado utilizando a matriz de adjacência."""
-    def __init__(self, v = None, e = None, direcionado = False, usaMatriz = False):
+    def __init__(self, v : int = 0, e = None, direcionado = False, usaMatriz = False):
         self.v = v
         self.le = e
         self.direcionado = direcionado
@@ -331,7 +331,7 @@ def caminho(g: Graph, s: int, t: int):
 
 
 ### 4
-def mostra_caminho(g: Graph, s: int, t: int) -> None:
+def mostra_caminho(g: Graph, s: int, t: int) -> int:
     """Dados vértices s e t de um grafo G, escreva uma função que
     encontra e exibe (caso exista) um caminho de s a t. Faça duas
     versões da função: uma supõe que o grafo é dado por sua matriz
@@ -528,6 +528,34 @@ def grafo_aresta_induzido(g: Graph, e = []):
 
 def eh_subgrafo(g: Graph, h: Graph):
     """Checa se h é sub grafo de g"""
-    # for i in range(h.v):
+    if g.direcionado or h.direcionado: exit("PRECISA SER NAO DIRECIONADO")
 
-    pass
+    for i in range(h.v):
+        for j in h.e[i]: 
+            if not j in g.e[i] :
+                return False
+
+    return True
+
+####
+def componentes(g: Graph):
+    cc = [-1 for _ in range(g.v)]
+
+    comp = 0
+
+    for v in range(g.v):
+        if cc[v] == -1:
+            dfs_componentes(g, v, comp, cc)
+            comp += 1
+    
+    return comp
+
+def dfs_componentes(g: Graph, v: int, comp: int, cc: list[int]):
+    cc[v] = comp
+
+    for w in g.e[v]:
+        if cc[w] == -1:
+            dfs_componentes(g, w, comp, cc)
+
+def eh_conexo(g: Graph):
+    return componentes(g) == 1
