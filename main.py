@@ -238,12 +238,65 @@ if __name__ == "__main__":
 
 ######
     """Numero de componenetes"""
+    # g = Graph(v = 6, e= None, direcionado= False, usaMatriz= False)
+
+    # g.insere(1, 2)
+    # g.insere(1, 4)
+    # g.insere(2, 4)
+    # g.insere(4, 3)
+    # g.insere(3, 5)
+
+    # print(componentes(g))
+
+######
+    """Bipartido"""
+
+    # g = Graph(v = 8, e= None, direcionado= False, usaMatriz= False)
+    # g.insere(0, 1)
+    # g.insere(1, 2)
+    # g.insere(2, 3)
+    # g.insere(3, 0)
+
+    # g.insere(4, 5)
+    # g.insere(5, 6)
+    # g.insere(6, 7)
+    # g.insere(7, 4)
+
+    # g.insere(0, 4)
+    # g.insere(1, 5)
+    # g.insere(2, 6)
+    # g.insere(3, 7)
+
+    # print(eh_bipartido(g))
+
+#######
+    """Detectar pontes"""
+    # g = Graph(v = 6, e= None, direcionado= False, usaMatriz= False)
+
+    # g.insere(0, 1)
+    # g.insere(1, 2)
+    # g.insere(2, 0)
+
+    # g.insere(1, 3)
+
+    # g.insere(3, 4)
+    # g.insere(4, 5)
+    # g.insere(5, 3)
+
+    # detectar_pontes(g)
+
+######
+    """Detectar articulações"""
     g = Graph(v = 6, e= None, direcionado= False, usaMatriz= False)
 
+    g.insere(0, 1)
     g.insere(1, 2)
-    g.insere(1, 4)
-    g.insere(2, 4)
-    g.insere(4, 3)
-    g.insere(3, 5)
+    g.insere(2, 0)
 
-    print(componentes(g))
+    g.insere(1, 3)
+
+    g.insere(3, 4)
+    g.insere(4, 5)
+    g.insere(5, 3)
+
+    detectar_articulacoes(g)

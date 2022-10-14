@@ -492,6 +492,9 @@ def ordenacao_topologica(g: Graph):
 def grafo_induzido(g: Graph, v = []):
     if g.direcionado: exit("PRECISA SER NAO DIRECIONADO")
 
+    for i in v:
+        if i not in range(g.v): exit("Vértice não pertence ao grafo")
+
     qtd_v = g.v - len(v)
 
     vertices_restantes = list(set([i for i in range(g.v)])- set(v))
@@ -537,6 +540,14 @@ def eh_subgrafo(g: Graph, h: Graph):
 
     return True
 
+def eh_subgrafo_gerador(g: Graph, h: Graph):
+    if eh_subgrafo(g, h):
+        for i in range(h.v):
+            if not i in range(g.v): return False
+        return True
+
+    return False
+
 ####
 def componentes(g: Graph):
     cc = [-1 for _ in range(g.v)]
@@ -559,3 +570,95 @@ def dfs_componentes(g: Graph, v: int, comp: int, cc: list[int]):
 
 def eh_conexo(g: Graph):
     return componentes(g) == 1
+
+
+def eh_bipartido(g: Graph):
+    visitado = [False for _ in range(g.v)]
+    cores = [-1 for _ in range(g.v)]
+    cor = 0
+
+    qual_cor = {0:[], 1:[]}
+
+    for u in range(g.v):
+        if not visitado[u]:
+            dfs_bipartido(g, u, visitado, cor, cores)
+    
+    bipart = True
+    for u in range(g.v):
+        qual_cor[cores[u]].append(u)
+
+        for v in g.e[u]:
+            if cores[v] == cores[u]: bipart = False
+        
+    print(f"Azul: {qual_cor[0]}")
+    print(f"Vermelho: {qual_cor[1]}")
+    return bipart
+
+
+def dfs_bipartido(g, u, visitados, cor, cores):
+    visitados[u] = True
+    cores[u] = cor
+
+    for w in g.e[u]:
+        if not visitados[w]:
+            dfs_bipartido(g, w, visitados, 0 if cor else 1, cores)    
+
+
+def detectar_pontes(g: Graph):
+    tempo = 0
+    pre = [-1 for _ in range(g.v)]
+    pai = [-1 for _ in range(g.v)]
+    low = [-1 for _ in range(g.v)]
+
+    for v in range(g.v):
+        if pre[v] == -1:
+            pai[v] = v
+            dfs_visita_ponte(g, v, tempo, pre, pai, low)
+
+def dfs_visita_ponte(g: Graph, v, tempo, pre, pai, low):
+    tempo += 1
+    pre[v] = tempo
+    low[v] = pre[v]
+
+    for w in g.e[v]:
+        if pre[w] == -1:
+            pai[w] = v
+            dfs_visita_ponte(g, w, tempo, pre, pai, low)
+            low[v] = min(low[v], low[w])
+            if low[w] == pre[w]:
+                print(v, w)
+        elif w != pai[v]:
+            low[v] = min(low[v], pre[w])
+
+
+def detectar_articulacoes(g: Graph):
+    tempo = 0
+    pre = [-1 for _ in range(g.v)]
+    pai = [-1 for _ in range(g.v)]
+    low = [-1 for _ in range(g.v)]
+
+    for v in range(g.v):
+        if pre[v] == -1:
+            pai[v] = v
+            dfs_visita_ponte(g, v, tempo, pre, pai, low)
+
+def dfs_visita_articulacoes(g: Graph, v, tempo, pre, pai, low):
+    tempo += 1
+    pre[v] = tempo
+    low[v] = pre[v]
+    filhos = 0
+    eh_articulacao = False
+
+    for w in g.e[v]:
+        if pre[w] == -1:
+            pai[w] = v
+            filhos += 1
+            dfs_visita_ponte(g, w, tempo, pre, pai, low)
+            low[v] = min(low[v], low[w])
+            if low[w] >= pre[w]:
+                eh_articulacao = True
+        elif w != pai[v]:
+            low[v] = min(low[v], pre[w])
+    
+    if(pai[v] != -1 and eh_articulacao) or (pai[v] == -1 and filhos > 0):
+        print(v)
