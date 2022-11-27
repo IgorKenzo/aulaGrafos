@@ -962,3 +962,40 @@ def eh_ponte(g:Graph, v: int, w: int):
 ###
 # hamiltoniano
 # TODO
+
+############################################ Aula 09 #######################################################    
+
+def bfs(g: Graph, s):
+    """ Implemente o algoritmo de Busca em profundidade (BFS) """
+    
+    visitado = [False for _ in range(g.v)]
+    visitado[s] = True
+
+    queue = []
+    queue.append(s)
+    while len(queue) != 0:
+        v = queue.pop(0)
+        for w in g.e[v]:
+            if not visitado[w]:
+                visitado[w] = True
+                queue.append(w)
+
+def bfs_cor(g: Graph, s):
+    """Implemente o algoritmo de Busca em profundidade (BFS)
+    utilizando cores."""
+    cor = [BRANCO for _ in range(g.v)]
+    pai = [None for _ in range(g.v)]
+
+    cor[s] = CINZA
+
+    queue = [s]
+
+    while len(queue) != 0:
+        v = queue.pop(0)
+
+        for w in g.e[v]:
+            if cor[w] == BRANCO:
+                cor[w] = CINZA
+                pai[w] = v
+                queue.append(w)
+        cor[v] = PRETO
