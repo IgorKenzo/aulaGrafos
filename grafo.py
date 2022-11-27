@@ -1,4 +1,5 @@
 from functools import reduce
+############################################ Aula 01 ############################################
 # 1
 class Graph():
     """Construa uma classe Digrafo para representar o grafo orientado utilizando a matriz de adjacência."""
@@ -274,7 +275,7 @@ def _compara_lista(g ,h):
                 return False
     return True
 
-########### Aula 02 ###########
+############################################ Aula 02 #######################################################
 ### 1
 def tem_caminho(g: Graph, cam: list[int]):
     """Escreva uma função que verifique se uma dada sequência
@@ -356,6 +357,12 @@ def mostra_caminho(g: Graph, s: int, t: int) -> int:
 
 ### 5
 def dfs_iterativo(g: Graph):
+    """
+    Escreva uma versão iterativa para a busca em profundidade
+    para grafos representados por uma matriz de adjacência e por
+    uma listas de adjacência. Dica utilize uma pilha como estrutura
+    auxiliar
+    """
     visitado = [0 for _ in range(g.v)]
     stack = []
 
@@ -389,6 +396,59 @@ def dfs_iterativo(g: Graph):
 
 ### fim 5
 
+### Exercicio
+"""
+Escreva um método receba dois vértices v e w em V (G), e verifique se existe um arco v − w em G. Caso positivo devolva
+a classificação do arco (arborescência, descendente, retorno ou
+cruzado).
+"""
+ 
+def dfs_visita_tipo_arco(g, u, visitados, tempo, d, f, pai):
+    visitados[u] = True
+
+    tempo += 1
+    d[u] = tempo
+
+    for w in g.e[u]:
+        if not visitados[w]:
+            pai[w] = u
+            tempo = dfs_visita_tipo_arco(g, w, visitados, tempo, d, f, pai)    
+
+    tempo += 1
+    f[u] = tempo
+    return tempo
+
+def dfs_tipo_arco(g: Graph, v: int, w: int):
+
+    if not caminho(g, v, w): return "Não tem caminho entre os vertices"
+
+    
+    visitado = [False for _ in range(g.v)]
+    d = [-1 for _ in range(g.v)]
+    f = [-1 for _ in range(g.v)]
+    pai = [-1 for _ in range(g.v)]
+
+    tempo = 0
+
+    for u in range(g.v):
+        if not visitado[u]:
+            pai[u] = u
+            dfs_visita_tipo_arco(g, u, visitado, tempo, d, f, pai)
+
+    if d[v] < d[w] < f[w] < f[v] and pai[w] == v:
+        return "Arborecência"
+    elif d[v] < d[w] < f[w] and pai[w] != v:
+        return "Descendente"
+    elif d[w] < d[v] < f[v] < f[w]:
+        return "Retorno"
+    elif d[w] < f[w] < d[v] < f[v]:
+        return "Cruzado"
+    else:
+        return "Deu ruim"
+
+
+############################################ Aula 03 #######################################################
+
 def dfs(g):
     visitados = [False for _ in range(g.v)]
     for u in range(len(g.e)):
@@ -402,8 +462,15 @@ def dfs_visita(g, u, visitados):
         if not visitados[w]:
             dfs_visita(g, w, visitados)
 
+#######
+### 1
+"""
+Escreva um método que verifica se um dado digrafo contém um
+ciclo. O método devolve 1 se existe um ciclo e devolve 0 em
+caso contrário.
+Implemente a detecção do ciclo utilizando a função de caminho.
+"""
 
-###########################################################
 def tem_ciclo(g):
     for i in range(g.v):
         if ciclo(g, i, i): return True
@@ -421,6 +488,81 @@ def ciclo(g, s, e):
             if j == e: return True
             if ciclo(g, j, e): return True
     return False
+
+### 2
+"""
+Escreva um método que verifica se um dado digrafo contém um
+ciclo. O método devolve 1 se existe um ciclo e devolve 0 em
+caso contrário.
+Implemente a detecção do ciclo utilizando classificação de arcos
+"""
+
+def tem_arco_de_retorno(g, u, tempo, d, f):
+    
+    d[u] = tempo
+    tempo += 1
+
+    for w in g.e[u]:
+        if d[w] == -1:
+            if tem_arco_de_retorno(g, w, tempo, d, f):
+                return 1
+        elif f[w] == -1:
+            return 1
+
+    f[u] = tempo
+    tempo += 1
+    return 0
+
+def tem_ciclo_classi_arcos(g: Graph):
+    d = [-1 for _ in range(g.v)]
+    f = [-1 for _ in range(g.v)]
+
+    tempo = 0
+
+    for u in range(g.v):
+        if d[u] == -1:
+            if tem_arco_de_retorno(g, u, tempo, d, f):
+                return 1
+
+    return 0
+
+### 3
+"""
+Escreva um método que verifica se um dado digrafo contém um
+ciclo. O método devolve 1 se existe um ciclo e devolve 0 em
+caso contrário.
+Implemente a detecção do ciclo utilizando cores.
+"""
+BRANCO = "branco"
+CINZA = "cinza"
+PRETO = "preto"
+
+def tem_arco_de_retorno_cor(g, u, cores):
+    
+    cores[u] = CINZA
+
+    for w in g.e[u]:
+        if cores[w] == CINZA:
+            return 1
+        if cores[w] == BRANCO:
+            if tem_arco_de_retorno_cor(g, w, cores):
+                return 1
+        
+    cores[u] = PRETO
+    return 0
+
+def tem_ciclo_cor(g: Graph):
+    # d = [-1 for _ in range(g.v)]
+    # f = [-1 for _ in range(g.v)]
+    cores = [BRANCO for _ in range(g.v)]
+
+    for u in range(g.v):
+        if cores[u] == BRANCO:
+            if tem_arco_de_retorno_cor(g, u, cores):
+                return 1
+
+    return 0
+
 
 ############ Aula 4 $$#########
 
