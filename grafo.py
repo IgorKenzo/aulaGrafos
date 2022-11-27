@@ -1,4 +1,5 @@
 from functools import reduce
+from math import floor
 ############################################ Aula 01 ############################################
 # 1
 class Graph():
@@ -999,3 +1000,78 @@ def bfs_cor(g: Graph, s):
                 pai[w] = v
                 queue.append(w)
         cor[v] = PRETO
+
+############################################ Aula 10 #######################################################    
+###
+def dijkstra(g: Graph, s: int, p):
+    INF = float('inf')
+    d = [INF for _ in range(g.v)]
+    pi = [None for _ in range(g.v)]
+    d[s] = 0
+    queue = []
+    n = g.v
+    
+    while n > 0:
+        u = extrai_minimo(queue, d, g)
+        queue.append(u)
+
+        for v in g.e[u]:
+            if d[v] > d[u] + p[u][v]:
+                d[v] = d[u] + p[u][v]
+                pi[v] = u
+        n -= 1
+
+def extrai_minimo(S, d, g):
+    menor = float('inf')
+    min = 0
+
+    for u in range(g.v):
+        if u not in S and d[u] < menor:
+            menor = d[u]
+            min = u
+    
+    return min
+###
+
+###
+
+def pai(i): return i/2
+def esq(i): return 2*i
+def dir(i): return 2*i + 1
+
+def sobe_heap(i, A):
+    j = pai(i)
+    while j <= 1 and A[i] < A[j]:
+        A[i], A[j] = A[j], A[i]
+        j = pai(i)
+
+def insere_heap(A, n, item):
+    n += 1
+    A[n] = item
+    sobe_heap(n, A)
+
+def desce_heap(A, n, i):
+    while 2 * i <= n:
+        e = esq(i)
+        d = dir(i)
+
+        if d <= n and A[d] < A[e]:
+            j = d
+        else:
+            j = e
+        
+        if A[i] > A[j]:
+            A[i], A[j] = A[j], A[i]
+            i = j
+        else:
+            i = n + 1
+
+def extrai_min(A, n):
+    min = A[1]
+    A[1] = A[n]
+    desce_heap(A, n-1, 1)
+    return min
+
+def constroi_heap(A, n):
+    for i in range(floor(n/2), 1, -1):
+        desce_heap(A, n, i)
