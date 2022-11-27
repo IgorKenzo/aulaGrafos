@@ -769,8 +769,15 @@ de Kosaraju
 # TODO
 
 
-#################################################
+############################################ Aula 06 #######################################################    
+
+### 1
 def eh_bipartido(g: Graph):
+    """
+    Escreva um programa que verifique se o grafo é bipartido,
+    caso seja bipartido, apresente quais são os vértices que da cor
+    azul e quais vértices da cor vermelho.
+    """
     visitado = [False for _ in range(g.v)]
     cores = [-1 for _ in range(g.v)]
     cor = 0
@@ -800,9 +807,13 @@ def dfs_bipartido(g, u, visitados, cor, cores):
     for w in g.e[u]:
         if not visitados[w]:
             dfs_bipartido(g, w, visitados, 0 if cor else 1, cores)    
+### fim 1
 
 
+############################################ Aula 07 #######################################################    
+### 1
 def detectar_pontes(g: Graph):
+    """ Implemente o algoritmo de detectar pontes"""
     tempo = 0
     pre = [-1 for _ in range(g.v)]
     pai = [-1 for _ in range(g.v)]
@@ -827,9 +838,11 @@ def dfs_visita_ponte(g: Graph, v, tempo, pre, pai, low):
                 print(v, w)
         elif w != pai[v]:
             low[v] = min(low[v], pre[w])
+### fim 1
 
-
+### 2
 def detectar_articulacoes(g: Graph):
+    """ Implemente o algoritmo de detectar pontos de articulação"""
     tempo = 0
     pre = [-1 for _ in range(g.v)]
     pai = [-1 for _ in range(g.v)]
