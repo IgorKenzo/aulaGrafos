@@ -275,6 +275,18 @@ def _compara_lista(g ,h):
                 return False
     return True
 
+def remove_no(g, v):
+    if g.usaMatriz:
+        for i in range(g.v):
+            g.e[i][v] = 0
+            g.e[v][i] = 0
+    else:
+        g.e[v] = []
+        for i in range(g.v):
+            if i in g.e[i]:
+                g.e[i].remove(v)
+
+
 ############################################ Aula 02 #######################################################
 ### 1
 def tem_caminho(g: Graph, cam: list[int]):
@@ -564,18 +576,8 @@ def tem_ciclo_cor(g: Graph):
     return 0
 
 
-############ Aula 4 $$#########
 
-def remove_no(g, v):
-    if g.usaMatriz:
-        for i in range(g.v):
-            g.e[i][v] = 0
-            g.e[v][i] = 0
-    else:
-        g.e[v] = []
-        for i in range(g.v):
-            if i in g.e[i]:
-                g.e[i].remove(v)
+
 
 
 def dfs_visita_tempo(g, u, visitados, tempo, d, f, pai):
@@ -613,10 +615,14 @@ def dfs_tempo(g: Graph):
             dfs_visita_tempo(g, u, visitado, tempo, d, f, pai)
 
     return d, f, pai
-    
 
+############################################ Aula 04 #######################################################    
 
 def ordenacao_topologica(g: Graph):
+    """
+    Implemente o algoritmo de ordenação topológica utilizando busca
+    em profundidade.
+    """
     h = Graph(g.v,None, g.direcionado, g.usaMatriz)
     h.e = g.e.copy()
 
@@ -631,7 +637,23 @@ def ordenacao_topologica(g: Graph):
                 remove_no(h ,i)
     return ordem
 
+############################################ Aula 05 #######################################################    
+### 1 
+"""
+1. Dado o grafo G = (V, E) a seguir:
+
+"""
+
 def grafo_induzido(g: Graph, v = []):
+    """ 
+    a) Apresente o subgrafo G1 de G induzido por V = {a, b, c, d, e, f}. 
+
+    e 
+    4. Dado um grafo não orientado G = (V, E), escreva um método
+    que receba um conjunto de vértices V' ∈ V e devolva um grafo
+    induzido por V'. Caso não seja possível gerar o grafo induzido,
+    apresente uma mensagem de erro.
+    """
     if g.direcionado: exit("PRECISA SER NAO DIRECIONADO")
 
     for i in v:
@@ -655,6 +677,10 @@ def grafo_induzido(g: Graph, v = []):
     return h
 
 def grafo_aresta_induzido(g: Graph, e = []):
+    """ 
+    b) Apresente o subgrafo G2 de G aresta-induzido por
+    E0 = {{a, g}, {b, g}, {c, g}, {d, g}, {e, g}, {f, g}}.
+    """
     if g.direcionado: exit("PRECISA SER NAO DIRECIONADO")
 
     h = Graph(g.v, e= None, direcionado= False, usaMatriz=g.usaMatriz)
@@ -671,7 +697,12 @@ def grafo_aresta_induzido(g: Graph, e = []):
 
     return h
 
+### 2 
 def eh_subgrafo(g: Graph, h: Graph):
+    """ 2. Dado um grafo não orientado G = (V, E), escreva um método
+    que receba um grafo G1 = (V, E) e devolva verdadeiro se G1 ⊆ G,
+    e falso caso contrário.
+    """
     """Checa se h é sub grafo de g"""
     if g.direcionado or h.direcionado: exit("PRECISA SER NAO DIRECIONADO")
 
@@ -682,7 +713,13 @@ def eh_subgrafo(g: Graph, h: Graph):
 
     return True
 
+### 3
 def eh_subgrafo_gerador(g: Graph, h: Graph):
+    """
+    3. Dado um grafo não orientado G = (V, E), escreva um método
+    que receba um grafo G1 = (V, E) e devolva verdadeiro se G1 é
+    um subgrafo gerador de G, e falso caso contrário.
+    """
     if eh_subgrafo(g, h):
         for i in range(h.v):
             if not i in range(g.v): return False
@@ -690,8 +727,11 @@ def eh_subgrafo_gerador(g: Graph, h: Graph):
 
     return False
 
-####
+### 5
 def componentes(g: Graph):
+    """ 5. Dado um grafo não orientado, construa um método que
+    devolve o número de componentes de G.
+    """
     cc = [-1 for _ in range(g.v)]
 
     comp = 0
@@ -709,11 +749,27 @@ def dfs_componentes(g: Graph, v: int, comp: int, cc: list[int]):
     for w in g.e[v]:
         if cc[w] == -1:
             dfs_componentes(g, w, comp, cc)
+### fim 5
 
+### 6
 def eh_conexo(g: Graph):
+    """
+    6. Dado um grafo não orientado, utilize o método que devolve
+    o número de componentes do grafo construído no exercício anterior para construir um outro método que devolva verdadeiro se
+    o grafo é conexo e falso caso o grafo seja desconexo.
+    """
     return componentes(g) == 1
 
 
+### 7 
+"""
+Dado um digrafo D = (V, E), escreva um programa que determine os componentes fortemente conexos utilizando o algoritmo
+de Kosaraju
+"""
+# TODO
+
+
+#################################################
 def eh_bipartido(g: Graph):
     visitado = [False for _ in range(g.v)]
     cores = [-1 for _ in range(g.v)]
