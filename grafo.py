@@ -851,7 +851,7 @@ def detectar_articulacoes(g: Graph):
     for v in range(g.v):
         if pre[v] == -1:
             pai[v] = v
-            dfs_visita_ponte(g, v, tempo, pre, pai, low)
+            dfs_visita_articulacoes(g, v, tempo, pre, pai, low)
 
 def dfs_visita_articulacoes(g: Graph, v, tempo, pre, pai, low):
     tempo += 1
@@ -864,7 +864,7 @@ def dfs_visita_articulacoes(g: Graph, v, tempo, pre, pai, low):
         if pre[w] == -1:
             pai[w] = v
             filhos += 1
-            dfs_visita_ponte(g, w, tempo, pre, pai, low)
+            dfs_visita_articulacoes(g, w, tempo, pre, pai, low)
             low[v] = min(low[v], low[w])
             if low[w] >= pre[w]:
                 eh_articulacao = True
@@ -873,3 +873,92 @@ def dfs_visita_articulacoes(g: Graph, v, tempo, pre, pai, low):
     
     if(pai[v] != -1 and eh_articulacao) or (pai[v] == -1 and filhos > 0):
         print(v)
+
+############################################ Aula 08 #######################################################    
+### 1
+def eh_euleriano(g: Graph):
+    """
+    Considere um grafo não-dirigido conexo G, escreva um método que devolva True caso G for euleriano e False caso contrário.
+    Um grafo conexo é euleriano se e somente se todo vértice
+    tem grau par.
+    """
+    # 0: grau par, 1: grau ímpar
+    graus = {0: 0, 1: 0}
+
+    for v in range(g.v):
+        graus[g.grau_saida(v) % 2] += 1
+
+    if graus[1] == 0:
+        return True
+    
+    return False
+
+### 2 
+def tem_trilha_euleriana(g: Graph):
+    """
+    Seja G um grafo não-dirigido conexo. Escreva um método que devolva Ture se G tem uma trilha euleriana e False caso contrário.
+    Um grafo conexo tem uma trilha euleriana se e somente se
+    tem exatamente 2 vértices de grau ímpar.
+    """
+    # 0: grau par, 1: grau ímpar
+    graus = {0: 0, 1: 0}
+
+    for v in range(g.v):
+        graus[g.grau_saida(v) % 2] += 1
+
+    if graus[1] == 2:
+        return True
+    
+    return False
+
+### 3 
+def fleury(g: Graph):
+    # 0: grau par, 1: grau ímpar
+    graus = {0: [], 1: []}
+
+    for v in range(g.v):
+        graus[g.grau_saida(v) % 2].append(v)
+
+    v = 0
+
+    if len(graus[1]) != 2:
+        print("Não existe trilha de Euler")
+        return
+    elif len(graus[1]) == 0:
+        v = 0
+    else:
+        v = graus[1][0]
+
+    trilha = []
+    mostra_trilha_euleriana(g, v, trilha)
+    print(trilha)
+
+def mostra_trilha_euleriana(g: Graph, v: int, trilha):
+    trilha.append(v)
+    if len(g.e[v]) == 0: return
+
+    for w in g.e[v]:
+        if eh_ponte(g, v, w) == False:
+            remove_no(g, v, w)
+            mostra_trilha_euleriana(g, w, trilha)
+            return
+
+def eh_ponte(g:Graph, v: int, w: int):
+    remove_no(g, v, w)
+    if len(g.e[v]) == 1:
+        return False
+    if eh_conexo(g):
+        resultado = True
+    else:
+        resultado = False
+    
+    g.insere(v, w)
+    return resultado
+
+###
+# hierholzer
+#TODO
+
+###
+# hamiltoniano
+# TODO
