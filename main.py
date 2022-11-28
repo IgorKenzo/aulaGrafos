@@ -287,16 +287,26 @@ if __name__ == "__main__":
 
 ######
     """Detectar articulações"""
-    g = Graph(v = 6, e= None, direcionado= False, usaMatriz= False)
+    # g = Graph(v = 6, e= None, direcionado= False, usaMatriz= False)
 
-    g.insere(0, 1)
-    g.insere(1, 2)
-    g.insere(2, 0)
+    # g.insere(0, 1)
+    # g.insere(1, 2)
+    # g.insere(2, 0)
 
-    g.insere(1, 3)
+    # g.insere(1, 3)
 
-    g.insere(3, 4)
-    g.insere(4, 5)
-    g.insere(5, 3)
+    # g.insere(3, 4)
+    # g.insere(4, 5)
+    # g.insere(5, 3)
 
-    detectar_articulacoes(g)
+    # detectar_articulacoes(g)
+
+###
+    g = Graph(v = 4, e= [(0,1), (1,2), (2,3), (3,0)], direcionado= False, usaMatriz= False)
+
+    pesos = [[0, 9, 0, 0],
+    [0, 0, 2, 0],
+    [0, 0, 0, 5],
+    [1, 0, 0, 0]]
+
+    print(kruskal(g, pesos))

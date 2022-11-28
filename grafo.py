@@ -1075,3 +1075,124 @@ def extrai_min(A, n):
 def constroi_heap(A, n):
     for i in range(floor(n/2), 1, -1):
         desce_heap(A, n, i)
+
+
+############################################ Aula 11 #######################################################    
+
+def relaxar(u, v, p, d, pi):
+    if d[v] > d[u] + p[u][v]:
+        d[v] = d[u] + p[u][v]
+        pi[v] = u
+
+def todas_arestas(g: Graph):
+    res = []
+    for i in range(g.v):
+        for j in g.e[i]:
+            res.append((i,j))
+    
+    return res
+
+def bellman_ford(g: Graph, s, p):
+    d = [float('inf') for _ in range(g.v)]
+    pi = [None for _ in range(g.v)]
+
+    d[s] = 0
+
+    for i in range(1, g.v-1, 1):
+        for (u,v) in todas_arestas(g):
+            relaxar(u, v, p, d, pi)
+        
+    for (u,v) in todas_arestas(g):
+        if d[v] > d[u] + p[u][v]:
+            return False
+    
+    return True
+
+############################################ Aula 12 #######################################################    
+
+#https://www.programiz.com/dsa/floyd-warshall-algorithm
+# Algorithm implementation
+def floyd_warshall(g: Graph):
+    distance = list(map(lambda i: list(map(lambda j: j, i)), g))
+
+    # Adding vertices individually
+    for k in range(g.v):
+        for i in range(g.v):
+            for j in range(g.v):
+                distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])
+    print_solution(distance)
+
+
+# Printing the solution
+def print_solution(g: Graph, distance):
+    INF = float('inf')
+    for i in range(g.v):
+        for j in range(g.v):
+            if(distance[i][j] == INF):
+                print("INF", end=" ")
+            else:
+                print(distance[i][j], end="  ")
+        print(" ")
+
+
+############################################ Aula 13 #######################################################    
+
+###
+def prim(g: Graph, s, p):
+    chave = [float('inf') for _ in range(g.v)]
+    cor = [CINZA for _ in range(g.v)]
+    pi = [None for _ in range(g.v)]
+
+    chave[s] = 0
+
+    queue = [s]
+
+    while len(queue) != 0:
+        u = queue.pop(0)
+
+        for v in g.e[u]:
+            if cor[v] == CINZA and chave[v] > p[u][v]:
+                chave[v] = p[u][v]
+                pi[v] = u
+                queue.append(v)
+        
+        cor[v] = PRETO
+###        
+
+###
+def make_set(id, x):
+    id[x] = x
+
+def find(id, x):
+    if id[x] == x:
+        return x
+    
+    return find(id, id[x])
+
+def union(id, x, y):
+    x = find(id, x)
+    y = find(id, y)
+    id[y] = x
+
+def ordena_arestas_por_peso(arestas, pesos):
+    are = list(map(lambda x: (x[0], x[1], pesos[x[0]][x[1]]), arestas))
+    ar = sorted(are, key= lambda x: x[2])
+
+    return list(map(lambda x: (x[0], x[1]), ar))
+
+
+def kruskal(g:Graph, pesos):
+    arestas = todas_arestas(g)
+    arestas = ordena_arestas_por_peso(arestas, pesos)
+
+    a = set()
+    id = [0 for _ in range(g.v)]
+    for v in range(g.v):
+        make_set(id, v)
+    
+    for (u, v) in arestas:
+        if find(id, u) != find(id, v):
+            a.add((u,v))
+            union(id, u,v)
+
+    return a
